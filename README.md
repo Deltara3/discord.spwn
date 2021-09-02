@@ -1,3 +1,3 @@
 # discord.spwn
-but revived and on github
+An API wrapper for Discord, written in SPWN.
 ![/bin/cat](bincat.png)
