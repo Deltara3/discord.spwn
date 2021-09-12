@@ -5,6 +5,7 @@ let emoji = import "emoji.spwn"
 let audit = import "audit.spwn"
 let guild = import "guild.spwn"
 let user = import "user.spwn"
+let invite = import "invite.spwn"
 
 return {
     webhook,
@@ -13,5 +14,6 @@ return {
     emoji,
     audit,
     guild,
-    user
+    user,
+    invite
 }
