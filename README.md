@@ -13,4 +13,5 @@ An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-la
 - [ ] User
 - [X] Webhook
 - [ ] Components
+- [ ] Commands
 - [ ] Ease of use
