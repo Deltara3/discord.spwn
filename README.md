@@ -5,4 +5,5 @@ An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-la
 - [X] Emoji
 - [X] Audit log
 - [X] Webhooks
-- [x] Invites
+- [X] Invites
+- [X] Stages
