@@ -2,10 +2,12 @@ let webhook = import "webhook.spwn"
 let channel = import "channel.spwn"
 let client = import "client.spwn"
 let emoji = import "emoji.spwn"
+let audit = import "audit.spwn"
 
 return {
     webhook,
     channel,
     client,
-    emoji
+    emoji,
+    audit
 }
