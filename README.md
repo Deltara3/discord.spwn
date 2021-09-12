@@ -8,4 +8,4 @@ An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-la
 - [X] Invites
 - [X] Stages
 - [X] Stickers
-- [-] User
+- [~] User
