@@ -3,11 +3,13 @@ let channel = import "channel.spwn"
 let client = import "client.spwn"
 let emoji = import "emoji.spwn"
 let audit = import "audit.spwn"
+let guild = import "guild.spwn"
 
 return {
     webhook,
     channel,
     client,
     emoji,
-    audit
+    audit,
+    guild
 }
