@@ -5,13 +5,13 @@ create = (content: @string, channel_id: @string, auth: @string) {
     return $.http_request("post", "https://discord.com/api/v9/channels/{}/webhooks", headers, content)
 }
 
-get_all = (id: @string, auth: @string, type: @string = "channel") {
+get_all = (id: @string, auth: @string, id_type: @string = "channel") {
     headers = {
         "Authorization": auth
     }
-    if type == "channel" {
+    if id_type == "channel" {
         return $.http_request("get", "https://discord.com/api/v9/channels/{}/webhooks".fmt(id), headers, "")
-    } else if type == "guild" {
+    } else if id_type == "guild" {
         return $.http_request("get", "https://discord.com/api/v9/guilds/{}/webhooks".fmt(id), headers, "")
     }
 }

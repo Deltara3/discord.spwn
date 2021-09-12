@@ -4,6 +4,7 @@ let client = import "client.spwn"
 let emoji = import "emoji.spwn"
 let audit = import "audit.spwn"
 let guild = import "guild.spwn"
+let user = import "user.spwn"
 
 return {
     webhook,
@@ -11,5 +12,6 @@ return {
     client,
     emoji,
     audit,
-    guild
+    guild,
+    user
 }

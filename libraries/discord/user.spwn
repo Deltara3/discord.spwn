@@ -1,0 +1,7 @@
+get = (auth: @string, user: @string = "@me") {
+    return $.http_request("get", "https://discord.com/api/v9/users/{}".fmt(user), headers, "")
+}
+
+return {
+    get
+}
