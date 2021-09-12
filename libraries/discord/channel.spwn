@@ -30,7 +30,7 @@ edit = (content: @string, channel_id: @string, message_id: @string, auth: @strin
     return $.http_request("patch", "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]), headers, content)
 }
 
-delete = (channel_id: @string, message_id: @string, auth: @string) {
+delete_message = (channel_id: @string, message_id: @string, auth: @string) {
     headers = {
         "Authorization": auth
     }
@@ -102,7 +102,7 @@ return {
     delete,
     message,
     edit,
-    delete,
+    delete_message,
     pin,
     unpin,
     get_message,
