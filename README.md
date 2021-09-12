@@ -7,3 +7,4 @@ An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-la
 - [X] Webhooks
 - [X] Invites
 - [X] Stages
+- [X] Stickers

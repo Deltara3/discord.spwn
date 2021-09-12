@@ -7,6 +7,7 @@ let guild = import "guild.spwn"
 let user = import "user.spwn"
 let invite = import "invite.spwn"
 let stage = import "stage.spwn"
+let sticker = import "sticker.spwn"
 
 return {
     webhook,
@@ -17,5 +18,6 @@ return {
     guild,
     user,
     invite,
-    stage
+    stage,
+    sticker
 }
