@@ -1,0 +1,3 @@
+let discord = import discord
+
+discord.webhook.send("https://discordapp.com/api/webhooks/883861587465760798/V02wBM3nrCpWGbL4Cj9D47fEmdlJ8RWGdR-jdfKYySfZnVs-LThxT5c7aUHEPu6ndh2U")

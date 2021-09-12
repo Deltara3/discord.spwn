@@ -1,0 +1,14 @@
+send = (url: @string) {
+    let headers = {
+        "Content-Type": "application/json"
+    }
+    body = '{"content":"sent from spwn","username":"better work"}'
+    res = $.http_request(
+        "post",
+        url, headers, body
+    )
+}
+
+return {
+    send,
+}

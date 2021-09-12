@@ -1,0 +1,5 @@
+let webhook = import "webhook.spwn"
+
+return {
+    webhook,
+}
