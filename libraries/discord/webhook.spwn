@@ -3,12 +3,9 @@ message = (url: @string, data: @string) {
         "Content-Type": "application/json"
     }
     body = data
-    res = $.http_request(
-        "post",
-        url, headers, body
-    )
+    res = $.http_request("post", url, headers, body)
 }
 
 return {
-    message,
+    message
 }

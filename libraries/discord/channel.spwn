@@ -1,0 +1,10 @@
+get = (channel_id: @string, auth) {
+    headers = {
+        "Authorization": auth
+    }
+    return $.http_request("get", "https://discord.com/api/v9/channels/{}".fmt(channel_id), headers, "")
+}
+
+return {
+    get
+}

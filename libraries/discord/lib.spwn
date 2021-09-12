@@ -1,5 +1,9 @@
 let webhook = import "webhook.spwn"
+let channel = import "channel.spwn"
+let client = import "client.spwn"
 
 return {
     webhook,
+    channel,
+    client,
 }
