@@ -8,6 +8,7 @@ let user = import "user.spwn"
 let invite = import "invite.spwn"
 let stage = import "stage.spwn"
 let sticker = import "sticker.spwn"
+let thread = import "thread.spwn"
 
 return {
     webhook,
@@ -19,5 +20,6 @@ return {
     user,
     invite,
     stage,
-    sticker
+    sticker,
+    thread
 }

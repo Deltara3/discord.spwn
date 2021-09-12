@@ -1,9 +1,16 @@
 // Control
-get = (channel_id: @string, auth) {
+get = (channel_id: @string, auth: @string) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("get", "https://discord.com/api/v9/channels/{}".fmt(channel_id), headers, "")
+}
+
+modify = (content: @string, channel_id: @string, auth: @string) {
+    headers = {
+        "Authorization": auth
+    }
+    return $.http_request("patch", "https://discord.com/api/v9/channels/{}".fmt(channel_id), headers, content)
 }
 
 delete = (channel_id: @string, auth) {
@@ -20,6 +27,13 @@ message = (content: @string, channel_id: @string, auth: @string) {
         "Content-Type": "application/json"
     }
     return $.http_request("post", "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id), headers, content)
+}
+
+crosspost = (channel_id: @string, message_id: @string, auth: @string) {
+    headers = {
+        "Authorization": auth
+    }
+    return $.http_request("post", "https://discord.com/api/v9/{}/messages/{}/crosspost".fmt([channel_id, message_id]), headers, "")
 }
 
 edit = (content: @string, channel_id: @string, message_id: @string, auth: @string) {
@@ -49,6 +63,13 @@ unpin = (channel_id: @string, message_id: @string, auth: @string) {
         "Authorization": auth
     }
     return $.http_request("delete", "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]), headers, "")
+}
+
+pinned = (channel_id: @string, auth: @string) {
+    headers = {
+        "Authorization": auth
+    }
+    return $.http_request("get", "https://discord.com/api/v9/channels/{}/pins".fmt(channel_id), headers, "")
 }
 
 get_message = (channel_id: @string, message_id: @string, auth: @string) {
@@ -99,12 +120,15 @@ delete_all_reactions = (channel_id: @string, message_id: @string, auth: @string,
 
 return {
     get,
+    modify,
     delete,
     message,
+    crosspost,
     edit,
     delete_message,
     pin,
     unpin,
+    pinned,
     get_message,
     get_messages,
     react,
