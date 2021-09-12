@@ -6,6 +6,7 @@ let audit = import "audit.spwn"
 let guild = import "guild.spwn"
 let user = import "user.spwn"
 let invite = import "invite.spwn"
+let stage = import "stage.spwn"
 
 return {
     webhook,
@@ -15,5 +16,6 @@ return {
     audit,
     guild,
     user,
-    invite
+    invite,
+    stage
 }
