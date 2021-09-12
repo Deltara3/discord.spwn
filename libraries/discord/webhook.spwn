@@ -1,4 +1,4 @@
-send = (url: @string, data: @string) {
+message = (url: @string, data: @string) {
     let headers = {
         "Content-Type": "application/json"
     }
@@ -10,5 +10,5 @@ send = (url: @string, data: @string) {
 }
 
 return {
-    send,
+    message,
 }
