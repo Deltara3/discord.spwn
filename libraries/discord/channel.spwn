@@ -5,6 +5,15 @@ get = (channel_id: @string, auth) {
     return $.http_request("get", "https://discord.com/api/v9/channels/{}".fmt(channel_id), headers, "")
 }
 
+message = (content: @string, channel_id: @string, auth: @string) {
+    headers = {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+    }
+    return $.http_request("post", "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id), headers, content)
+}
+
 return {
-    get
+    get,
+    message
 }
