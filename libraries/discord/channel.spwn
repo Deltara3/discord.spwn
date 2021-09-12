@@ -36,10 +36,46 @@ get_messages = (channel_id: @string, auth: @string) {
     return $.http_request("get", "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id), headers, "")
 }
 
+react = (channel_id: @string, message_id: @string, emote: @string, auth: @string) {
+    headers = {
+        "Authorization": auth
+    }
+    return $.http_request("put", "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/@me".fmt([channel_id, message_id, emote]), headers, "")
+}
+
+unreact = (channel_id: @string, message_id: @string, emote: @string, auth: @string, user_id: @string = "@me") {
+    headers = {
+        "Authorization": auth
+    }
+    return $.http_request("delete", "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/{}".fmt([channel_id, message_id, emote, user_id]), headers, "")
+}
+
+get_reactions = (channel_id: @string, message_id: @string, emote: @string, auth: @string) {
+    headers = {
+        "Authorization": auth
+    }
+    return $.http_request("get", "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]), headers, "")
+}
+
+delete_all_reactions = (channel_id: @string, message_id: @string, auth: @string, emote: @string = "") {
+    headers = {
+        "Authorization": auth
+    }
+    if emote.is_empty() == true {
+        return $.http_request("delete", "https://discord.com/api/v9/channels/{}/messages/{}/reactions".fmt([channel_id, message_id]), headers, "")
+    } else {
+        return $.http_request("delete", "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]), headers, "")
+    }
+}
+
 return {
     get,
     delete,
     message,
     get_message,
-    get_messages
+    get_messages,
+    react,
+    unreact,
+    get_reactions,
+    delete_all_reactions
 }
