@@ -1,8 +1,8 @@
-send = (url: @string) {
+send = (url: @string, data: @string) {
     let headers = {
         "Content-Type": "application/json"
     }
-    body = '{"content":"sent from spwn","username":"better work"}'
+    body = data
     res = $.http_request(
         "post",
         url, headers, body
