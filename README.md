@@ -2,17 +2,16 @@
 An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-language).
 
 ## Entirely Implemented
-Rewrite in progress.
-- [ ] Audit
+- [X] Audit
 - [ ] Channel
 - [ ] Client
-- [ ] Emoji
+- [X] Emoji
 - [ ] Guild
-- [ ] Invite
-- [ ] Stage
-- [ ] Sticker
+- [X] Invite
+- [X] Stage
+- [X] Sticker
 - [ ] User
-- [ ] Webhook
+- [X] Webhook
 - [ ] Components
 - [ ] Commands
 - [ ] Ease of use
