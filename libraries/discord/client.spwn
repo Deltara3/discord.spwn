@@ -1,7 +1,0 @@
-auth = (token: @string, token_type: @string = "Bot") {
-    return "{} {}".fmt([token_type, token])
-}
-
-return {
-    auth
-}
