@@ -1,4 +1,4 @@
-get = (guild_id: @string, auth: @string) {
+get = (guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }

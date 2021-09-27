@@ -1,12 +1,12 @@
 // Control
-get = (channel_id: @string, auth: @string) {
+get = (channel_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("get", "https://discord.com/api/v9/channels/{}".fmt(channel_id), headers, "")
 }
 
-modify = (content: @string, channel_id: @string, auth: @string) {
+modify = (content: @string, channel_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
@@ -21,7 +21,7 @@ delete = (channel_id: @string, auth) {
 }
 
 // Chat
-message = (content: @string, channel_id: @string, auth: @string) {
+message = (content: @string, channel_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth,
         "Content-Type": "application/json"
@@ -29,14 +29,14 @@ message = (content: @string, channel_id: @string, auth: @string) {
     return $.http_request("post", "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id), headers, content)
 }
 
-crosspost = (channel_id: @string, message_id: @string, auth: @string) {
+crosspost = (channel_id: @string, message_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("post", "https://discord.com/api/v9/{}/messages/{}/crosspost".fmt([channel_id, message_id]), headers, "")
 }
 
-edit = (content: @string, channel_id: @string, message_id: @string, auth: @string) {
+edit = (content: @string, channel_id: @string, message_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth,
         "Content-Type": "application/json"
@@ -44,70 +44,70 @@ edit = (content: @string, channel_id: @string, message_id: @string, auth: @strin
     return $.http_request("patch", "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]), headers, content)
 }
 
-delete_message = (channel_id: @string, message_id: @string, auth: @string) {
+delete_message = (channel_id: @string, message_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("delete", "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]), headers, "")
 }
 
-pin = (channel_id: @string, message_id: @string, auth: @string) {
+pin = (channel_id: @string, message_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("put", "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]), headers, "")
 }
 
-unpin = (channel_id: @string, message_id: @string, auth: @string) {
+unpin = (channel_id: @string, message_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("delete", "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]), headers, "")
 }
 
-pinned = (channel_id: @string, auth: @string) {
+pinned = (channel_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("get", "https://discord.com/api/v9/channels/{}/pins".fmt(channel_id), headers, "")
 }
 
-get_message = (channel_id: @string, message_id: @string, auth: @string) {
+get_message = (channel_id: @string, message_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("get", "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]), headers, "")
 }
 
-get_messages = (channel_id: @string, auth: @string) {
+get_messages = (channel_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("get", "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id), headers, "")
 }
 
-react = (channel_id: @string, message_id: @string, emote: @string, auth: @string) {
+react = (channel_id: @string, message_id: @string, emote: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("put", "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/@me".fmt([channel_id, message_id, emote]), headers, "")
 }
 
-unreact = (channel_id: @string, message_id: @string, emote: @string, auth: @string, user_id: @string = "@me") {
+unreact = (channel_id: @string, message_id: @string, emote: @string, user_id: @string = "@me", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("delete", "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/{}".fmt([channel_id, message_id, emote, user_id]), headers, "")
 }
 
-get_reactions = (channel_id: @string, message_id: @string, emote: @string, auth: @string) {
+get_reactions = (channel_id: @string, message_id: @string, emote: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("get", "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]), headers, "")
 }
 
-delete_all_reactions = (channel_id: @string, message_id: @string, auth: @string, emote: @string = "") {
+delete_all_reactions = (channel_id: @string, message_id: @string, emote: @string = "", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }

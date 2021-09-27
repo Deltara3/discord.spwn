@@ -1,11 +1,11 @@
-create = (content: @string, channel_id: @string, auth: @string) {
+create = (content: @string, channel_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("post", "https://discord.com/api/v9/channels/{}/webhooks", headers, content)
 }
 
-get_all = (id: @string, auth: @string, id_type: @string = "channel") {
+get_all = (id: @string, id_type: @string = "channel", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
@@ -16,7 +16,7 @@ get_all = (id: @string, auth: @string, id_type: @string = "channel") {
     }
 }
 
-get = (webhook_id: @string, auth: @string, token: @string = "") {
+get = (webhook_id: @string, token: @string = "", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
@@ -27,7 +27,7 @@ get = (webhook_id: @string, auth: @string, token: @string = "") {
     }
 }
 
-modify = (content: @string, webhook_id: @string, auth: @string, token: @string = "") {
+modify = (content: @string, webhook_id: @string, token: @string = "", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
@@ -38,7 +38,7 @@ modify = (content: @string, webhook_id: @string, auth: @string, token: @string =
     }
 }
 
-delete = (webhook_id: @string, auth: @string, token: @string = "") {
+delete = (webhook_id: @string, token: @string = "", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }

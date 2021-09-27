@@ -1,11 +1,11 @@
-get = (auth: @string, user: @string = "@me") {
+get = (user: @string = "@me", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("get", "https://discord.com/api/v9/users/{}".fmt(user), headers, "")
 }
 
-modify = (content: @string, auth: @string) {
+modify = (content: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
@@ -19,14 +19,14 @@ guilds = (auth: @string) {
     return $.http_request("get", "https://discord.com/api/v9/users/@me/guilds", headers, "")
 }
 
-leave = (guild_id: @string, auth: @string) {
+leave = (guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("delete", "https://discord.com/api/v9/users/@me/guilds/{}".fmt(guild_id), headers, "")
 }
 
-connections = (auth: @string) {
+connections = (auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }

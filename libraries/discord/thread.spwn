@@ -1,4 +1,4 @@
-start = (content: @string, channel_id: @string, auth: @string, message_id: @string = "") {
+start = (content: @string, channel_id: @string, message_id: @string = "", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
@@ -9,21 +9,21 @@ start = (content: @string, channel_id: @string, auth: @string, message_id: @stri
     }
 }
 
-add = (thread_id: @string, auth: @string, user: @string = "@me") {
+add = (thread_id: @string, user: @string = "@me", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("put", "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]), headers, "")
 }
 
-remove = (thread_id: @string, auth: @string, user: @string = "@me") {
+remove = (thread_id: @string, user: @string = "@me", auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("remove", "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]), headers, "")
 }
 
-members = (thread_id: @string, auth: @string) {
+members = (thread_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
@@ -33,5 +33,6 @@ members = (thread_id: @string, auth: @string) {
 return {
     start,
     add,
-    remove
+    remove,
+    members
 }

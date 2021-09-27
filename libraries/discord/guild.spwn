@@ -1,11 +1,11 @@
-create = (content: @string, auth: @string) {
+create = (content: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
     return $.http_request("post", "https://discord.com/api/v9/guilds", headers, content)
 }
 
-get = (guild_id: @string, auth: @string) {
+get = (guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
     headers = {
         "Authorization": auth
     }
