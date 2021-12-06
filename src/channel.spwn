@@ -138,8 +138,8 @@ get_reactions = (self, channel_id: @string, message_id: @string, emote: @string)
 delete_all_reactions = (self, channel_id: @string, message_id: @string, emote: @string = "") {
     return $.http_request(
         "delete",
-        "https://discord.com/api/v9/channels/{}/messages/{}/reactions".fmt([channel_id, message_id])
-            if emote.is_empty() else
+        "https://discord.com/api/v9/channels/{}/messages/{}/reactions".fmt([channel_id, message_id]) if
+            emote.is_empty() else
         "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]),
         self.headers(),
         ""

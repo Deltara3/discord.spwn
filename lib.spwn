@@ -1,0 +1,32 @@
+
+
+type @discordAPI
+impl @discordAPI {
+    new: (token: @string){
+        return @discordAPI::{
+            token: token,
+        }
+    },
+    headers: (self, content: @dictionary = {}, auth = true){
+        let headers = {
+            "Content-Type": "application/json"
+        }
+        if auth {
+            headers.set("Authorization", self.token)
+        }
+        for items in content.items() {
+            headers.set(items[0], items[1])
+        }
+        return headers
+    },
+    audit: import "src/audit.spwn",
+    channel: import "src/channel.spwn",
+    emoji: import "src/emoji.spwn",
+    guild: import "src/guild.spwn",
+    invite: import "src/invite.spwn",
+    stage: import "src/stage.spwn",
+    sticker: import "src/sticker.spwn",
+    thread: import "src/thread.spwn",
+    user: import "src/user.spwn",
+    webhook: import "src/webhook.spwn",
+}

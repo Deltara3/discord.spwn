@@ -1,4 +1,5 @@
 get = (self, user: @string = "@me") {
+    $.print(self)
     return $.http_request(
         "get",
         "https://discord.com/api/v9/users/{}".fmt(user),
