@@ -16,4 +16,13 @@ An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-la
 - [ ] Commands
 - [ ] Ease of use
 
+## FAQ
+Q:What you can do?<br>
+A:Anything<br>
+
+Q:What you can't do? <br>
+A:Everything
+
+
+
 ![bin cat](bincat.png)
