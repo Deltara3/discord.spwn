@@ -1,19 +1,16 @@
-# discord.spwn
-An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-language).
+# discord.spwn Documentation
+Very super cool documenation for discord.spwn. Temporary location.
 
-## Entirely Implemented
-- [X] Audit
-- [ ] Channel
-- [ ] Client
-- [X] Emoji
-- [ ] Guild
-- [X] Invite
-- [X] Stage
-- [X] Sticker
-- [ ] User
-- [X] Webhook
-- [ ] Components
-- [ ] Commands
-- [ ] Ease of use
-
-![bin cat](bincat.png)
+## Table of Contents
+- [Audit]()
+- [Channel]()
+- [Client]()
+- [Emoji]()
+- [Guild]()
+- [Invite]()
+- [Stage]()
+- [Sticker]()
+- [User]()
+- [Webhook]()
+- [Components]()
+- [Commands]()
