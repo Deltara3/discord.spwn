@@ -6,7 +6,7 @@ get = (self, sticker_id: @string, sticker_type: @string = "nitro", guild_id: @st
             case 'guild': "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
         },
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -15,7 +15,7 @@ packs = (self) {
         "get",
         "https://discord.com/api/v9/sticker-packs",
         {},
-        ""
+        "",
     )
 }
 
@@ -24,7 +24,7 @@ list = (self, guild_id: @string) {
         "get",
         "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -35,7 +35,7 @@ create = (self, content: @string, guild_id: @string) {
         self.headers({
             "Content-Type": "multipart/form-data",
         }),
-        content
+        content,
     )
 }
 
@@ -46,7 +46,7 @@ modify = (self, content: @string, guild_id: @string, sticker_id: @string) {
         self.headers({
             "Content-Type": "multipart/form-data"
         }),
-        content
+        content,
     )
 }
 
@@ -55,7 +55,7 @@ delete = (self, content: @string, guild_id: @string, sticker_id: @string) {
         "delete",
         "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -65,5 +65,5 @@ return {
     list,
     create,
     modify,
-    delete
+    delete,
 }

@@ -3,7 +3,7 @@ get = (self, invite_id: @string) {
         "get",
         "https://discord.com/api/v9/invites/{}".fmt(invite_id),
         {},
-        ""
+        "",
     )
 }
 
@@ -12,11 +12,11 @@ delete = (self, invite_id: @string) {
         "delete",
         "https://discord.com/api/v9/invites/{}".fmt(invite_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
 return {
     get,
-    delete
+    delete,
 }

@@ -3,7 +3,7 @@ list = (self, guild_id: @string) {
         "get",
         "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -12,7 +12,7 @@ get = (self, guild_id: @string, emoji_id: @string) {
         "get",
         "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -21,7 +21,7 @@ create = (self, content: @string, guild_id: @string) {
         "post",
         "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -30,7 +30,7 @@ modify = (self, content: @string, guild_id: @string, emoji_id: @string) {
         "patch",
         "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -39,7 +39,7 @@ delete = (self, guild_id: @string, emoji_id: @string) {
         "delete",
         "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -48,5 +48,5 @@ return {
     get,
     create,
     modify,
-    delete
+    delete,
 }

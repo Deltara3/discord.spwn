@@ -4,7 +4,7 @@ get = (self, user: @string = "@me") {
         "get",
         "https://discord.com/api/v9/users/{}".fmt(user),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -13,7 +13,7 @@ modify = (self, content: @string) {
         "patch",
         "https://discord.com/api/v9/users/@me",
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -22,7 +22,7 @@ guilds = (self, auth: @string) {
         "get",
         "https://discord.com/api/v9/users/@me/guilds",
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -31,7 +31,7 @@ leave = (self, guild_id: @string) {
         "delete",
         "https://discord.com/api/v9/users/@me/guilds/{}".fmt(guild_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -40,7 +40,7 @@ connections = (self) {
         "get",
         "https://discord.com/api/v9/users/@me/connections",
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -49,5 +49,5 @@ return {
     modify,
     guilds,
     leave,
-    connections
+    connections,
 }

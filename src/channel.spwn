@@ -22,7 +22,7 @@ delete = (self, channel_id: @string, auth) {
         "delete",
         "https://discord.com/api/v9/channels/{}".fmt(channel_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -32,7 +32,7 @@ message = (self, content: @string, channel_id: @string) {
         "post",
         "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id),
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -41,7 +41,7 @@ crosspost = (self, channel_id: @string, message_id: @string) {
         "post",
         "https://discord.com/api/v9/{}/messages/{}/crosspost".fmt([channel_id, message_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -50,7 +50,7 @@ edit = (self, content: @string, channel_id: @string, message_id: @string) {
         "patch",
         "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -59,7 +59,7 @@ delete_message = (self, channel_id: @string, message_id: @string) {
         "delete",
         "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -68,7 +68,7 @@ pin = (self, channel_id: @string, message_id: @string) {
         "put",
         "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -77,7 +77,7 @@ unpin = (self, channel_id: @string, message_id: @string) {
         "delete",
         "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -86,7 +86,7 @@ pinned = (self, channel_id: @string) {
         "get",
         "https://discord.com/api/v9/channels/{}/pins".fmt(channel_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -95,7 +95,7 @@ get_message = (self, channel_id: @string, message_id: @string) {
         "get",
         "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -104,7 +104,7 @@ get_messages = (self, channel_id: @string) {
         "get",
         "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -113,7 +113,7 @@ react = (self, channel_id: @string, message_id: @string, emote: @string) {
         "put",
         "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/@me".fmt([channel_id, message_id, emote]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -122,7 +122,7 @@ unreact = (self, channel_id: @string, message_id: @string, emote: @string, user_
         "delete",
         "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/{}".fmt([channel_id, message_id, emote, user_id]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -131,7 +131,7 @@ get_reactions = (self, channel_id: @string, message_id: @string, emote: @string)
         "get",
         "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -142,7 +142,7 @@ delete_all_reactions = (self, channel_id: @string, message_id: @string, emote: @
             emote.is_empty() else
         "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -162,5 +162,5 @@ return {
     react,
     unreact,
     get_reactions,
-    delete_all_reactions
+    delete_all_reactions,
 }

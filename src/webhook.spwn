@@ -3,7 +3,7 @@ create = (self, content: @string, channel_id: @string) {
         "post",
         "https://discord.com/api/v9/channels/{}/webhooks",
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -15,7 +15,7 @@ get_all = (self, id: @string, id_type: @string = "channel") {
             case "guild": "https://discord.com/api/v9/guilds/{}/webhooks".fmt(id),
         },
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -26,7 +26,7 @@ get = (self, webhook_id: @string, token: @string = "") {
             token.is_empty() else
         "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -37,7 +37,7 @@ modify = (self, content: @string, webhook_id: @string, token: @string = "") {
             token.is_empty() else
         "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -48,7 +48,7 @@ delete = (self, webhook_id: @string, token: @string = "") {
             token.is_empty() else
         "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -59,7 +59,7 @@ message = (self, content: @string, webhook_id: @string, token: @string) {
         self.headers({
             "Content-Type": "application/json"
         }, false),
-        content
+        content,
     )
 }
 
@@ -68,7 +68,7 @@ get_message = (self, webhook_id: @string, token: @string, message_id: @string) {
         "get",
         "https://discord.com/api/v9/webhooks/{}/{}/message/{}".fmt([webhook_id, token, message_id]),
         {},
-        ""
+        "",
     )
 }
 
@@ -77,7 +77,7 @@ edit_message = (self, content: @string, webhook_id: @string, token: @string, mes
         "patch",
         "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
         {},
-        content
+        content,
     )
 }
 
@@ -86,7 +86,7 @@ delete_message = (self, webhook_id: @string, token: @string, message_id: @string
         "delete",
         "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
         {},
-        ""
+        "",
     )
 }
 
@@ -99,5 +99,5 @@ return {
     message,
     get_message,
     edit_message,
-    delete_message
+    delete_message,
 }

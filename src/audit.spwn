@@ -3,10 +3,10 @@ get = (self, guild_id: @string) {
         "get",
         "https://discord.com/api/v9/guilds/{}/audit-logs".fmt(guild_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
 return {
-    get
+    get,
 }

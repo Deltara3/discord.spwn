@@ -3,7 +3,7 @@ create = (self, content: @string) {
         "post",
         "https://discord.com/api/v9/guilds",
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -12,11 +12,11 @@ get = (self, guild_id: @string) {
         "get",
         "https://discord.com/api/v9/guilds/{}".fmt(guild_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
 return {
     create,
-    get
+    get,
 }

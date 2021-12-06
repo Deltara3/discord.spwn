@@ -3,7 +3,7 @@ get = (self, channel_id: @string) {
         "get",
         "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -12,7 +12,7 @@ modify = (self, channel_id: @string) {
         "patch",
         "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -21,12 +21,12 @@ delete = (self, channel_id: @string) {
         "delete",
         "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
         headers,
-        ""
+        "",
     )
 }
 
 return {
     get,
     modify,
-    delete
+    delete,
 }

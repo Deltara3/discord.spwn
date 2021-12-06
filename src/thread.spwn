@@ -5,7 +5,7 @@ start = (self, content: @string, channel_id: @string, message_id: @string = "") 
             message_id.is_empty() else
         "https://discord.com/api/v9/channels/{}/messages/{}/threads".fmt([channel_id, message_id]),
         self.headers(),
-        content
+        content,
     )
 }
 
@@ -14,7 +14,7 @@ add = (self, thread_id: @string, user: @string = "@me") {
         "put",
         "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -26,7 +26,7 @@ remove = (self, thread_id: @string, user: @string = "@me") {
         "remove",
         "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -35,7 +35,7 @@ members = (self, thread_id: @string) {
         "get",
         "https://discord.com/api/v9/channels/{}/thread-members".fmt(thread_id),
         self.headers(),
-        ""
+        "",
     )
 }
 
@@ -43,5 +43,5 @@ return {
     start,
     add,
     remove,
-    members
+    members,
 }
