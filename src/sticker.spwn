@@ -1,0 +1,69 @@
+get = (self, sticker_id: @string, sticker_type: @string = "nitro", guild_id: @string) {
+    return $.http_request(
+        "get",
+        switch sticker_type {
+            case 'nitro': "https://discord.com/api/v9/stickers/{}".fmt(sticker_id),
+            case 'guild': "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+        },
+        self.headers(),
+        "",
+    )
+}
+
+packs = (self) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/sticker-packs",
+        {},
+        "",
+    )
+}
+
+list = (self, guild_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
+        self.headers(),
+        "",
+    )
+}
+
+create = (self, content: @string, guild_id: @string) {
+    return $.http_request(
+        "post",
+        "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
+        self.headers({
+            "Content-Type": "multipart/form-data",
+        }),
+        content,
+    )
+}
+
+modify = (self, content: @string, guild_id: @string, sticker_id: @string) {
+    return $.http_request(
+        "patch",
+        "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+        self.headers({
+            "Content-Type": "multipart/form-data"
+        }),
+        content,
+    )
+}
+
+delete = (self, content: @string, guild_id: @string, sticker_id: @string) {
+    return $.http_request(
+        "delete",
+        "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+        self.headers(),
+        content,
+    )
+}
+
+return {
+    get,
+    packs,
+    list,
+    create,
+    modify,
+    delete,
+}

@@ -1,0 +1,12 @@
+get = (self, guild_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/guilds/{}/audit-logs".fmt(guild_id),
+        self.headers(),
+        "",
+    )
+}
+
+return {
+    get,
+}
