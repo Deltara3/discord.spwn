@@ -1,71 +1,93 @@
-create = (content: @string, channel_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("post", "https://discord.com/api/v9/channels/{}/webhooks", headers, content)
+create = (self, content: @string, channel_id: @string) {
+    return $.http_request(
+        "post",
+        "https://discord.com/api/v9/channels/{}/webhooks",
+        self.headers(),
+        content
+    )
 }
 
-get_all = (id: @string, id_type: @string = "channel", auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    if id_type == "channel" {
-        return $.http_request("get", "https://discord.com/api/v9/channels/{}/webhooks".fmt(id), headers, "")
-    } else if id_type == "guild" {
-        return $.http_request("get", "https://discord.com/api/v9/guilds/{}/webhooks".fmt(id), headers, "")
-    }
+get_all = (self, id: @string, id_type: @string = "channel") {
+    return $.http_request(
+        "get",
+        switch id_type {
+            case "channel": "https://discord.com/api/v9/channels/{}/webhooks".fmt(id),
+            case "guild": "https://discord.com/api/v9/guilds/{}/webhooks".fmt(id),
+        }
+        self.headers(),
+        ""
+    )
 }
 
-get = (webhook_id: @string, token: @string = "", auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    if token.is_empty() == true {
-        return $.http_request("get", "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id), headers, "")
-    } else {
-        return $.http_request("get", "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]), {}, "")
-    }
+get = (self, webhook_id: @string, token: @string = "") {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id)
+            if token.is_empty() else
+        "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
+        self.headers(),
+        ""
+    )
 }
 
-modify = (content: @string, webhook_id: @string, token: @string = "", auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    if token.is_empty() == true {
-        return $.http_request("patch", "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id), headers, content)
-    } else {
-        return $.http_request("patch", "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]), {}, content)
-    }
+modify = (self, content: @string, webhook_id: @string, token: @string = "") {
+    return $.http_request(
+        "patch",
+        "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id)
+            if token.is_empty() else
+        "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
+        self.headers(),
+        content
+    )
 }
 
-delete = (webhook_id: @string, token: @string = "", auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    if token.is_empty() == true {
-        return $.http_request("delete", "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id), headers, "")
-    } else {
-        return $.http_request("delete", "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]), {}, "")
-    }
+delete = (self, webhook_id: @string, token: @string = "") {
+    return $.http_request(
+        "delete",
+        "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id)
+            if token.is_empty() else
+        "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token])
+        headers,
+        ""
+    )
 }
 
-message = (content: @string, webhook_id: @string, token: @string) {
-    let headers = {
-        "Content-Type": "application/json"
-    }
-    return $.http_request("post", "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]), headers, content)
+message = (self, content: @string, webhook_id: @string, token: @string) {
+    return $.http_request(
+        "post",
+        "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
+        self.headers({
+            "Content-Type": "application/json"
+        }, false),
+        content
+    )
 }
 
-get_message = (webhook_id: @string, token: @string, message_id: @string) {
-    return $.http_request("get", "https://discord.com/api/v9/webhooks/{}/{}/message/{}".fmt([webhook_id, token, message_id]), {}, "")
+get_message = (self, webhook_id: @string, token: @string, message_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/webhooks/{}/{}/message/{}".fmt([webhook_id, token, message_id]),
+        {},
+        ""
+    )
 }
 
-edit_message = (content: @string, webhook_id: @string, token: @string, message_id: @string) {
-    return $.http_request("patch", "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]), {}, content)
+edit_message = (self, content: @string, webhook_id: @string, token: @string, message_id: @string) {
+    return $.http_request(
+        "patch",
+        "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
+        {},
+        content
+    )
 }
 
-delete_message = (webhook_id: @string, token: @string, message_id: @string) {
-    return $.http_request("delete", "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]))
+delete_message = (self, webhook_id: @string, token: @string, message_id: @string) {
+    return $.http_request(
+        "delete",
+        "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
+        {},
+        ""
+    )
 }
 
 return {

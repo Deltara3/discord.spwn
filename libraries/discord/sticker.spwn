@@ -1,46 +1,62 @@
-get = (sticker_id: @string, sticker_type: @string = "nitro", guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    if sticker_type == "nitro" {
-        return $.http_request("get", "https://discord.com/api/v9/stickers/{}".fmt(sticker_id), headers, "")
-    } else if sticker_type == "guild" {
-        return $.http_request("get", "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]), headers, "")
-    }
+get = (self, sticker_id: @string, sticker_type: @string = "nitro", guild_id: @string) {
+    return $.http_request(
+        "get",
+        switch sticker_type {
+            case 'nitro': "https://discord.com/api/v9/stickers/{}".fmt(sticker_id),
+            case 'guild': "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+        },
+        self.headers(),
+        ""
+    )
 }
 
-packs = () {
-    return $.http_request("get", "https://discord.com/api/v9/sticker-packs", {}, "")
+packs = (self) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/sticker-packs",
+        {},
+        ""
+    )
 }
 
-list = (guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("get", "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id), headers, "")
+list = (self, guild_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
+        self.headers(),
+        ""
+    )
 }
 
-create = (content: @string, guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth,
-        "Content-Type": "multipart/form-data"
-    }
-    return $.http_request("post", "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id), headers, content)
+create = (self, content: @string, guild_id: @string) {
+    return $.http_request(
+        "post",
+        "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
+        self.headers({
+            "Content-Type": "multipart/form-data",
+        }),
+        content
+    )
 }
 
-modify = (content: @string, guild_id: @string, sticker_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth,
-        "Content-Type": "multipart/form-data"
-    }
-    return $.http_request("patch", "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]), headers, content)
+modify = (self, content: @string, guild_id: @string, sticker_id: @string) {
+    return $.http_request(
+        "patch",
+        "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+        self.headers({
+            "Content-Type": "multipart/form-data"
+        }),
+        content
+    )
 }
 
-delete = (content: @string, guild_id: @string, sticker_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth,
-    }
-    return $.http_request("delete", "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]), headers, content)
+delete = (self, content: @string, guild_id: @string, sticker_id: @string) {
+    return $.http_request(
+        "delete",
+        "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+        self.headers(),
+        content
+    )
 }
 
 return {

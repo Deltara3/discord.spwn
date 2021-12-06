@@ -1,36 +1,46 @@
-get = (user: @string = "@me", auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("get", "https://discord.com/api/v9/users/{}".fmt(user), headers, "")
+get = (self, user: @string = "@me") {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/users/{}".fmt(user),
+        self.headers(),
+        ""
+    )
 }
 
-modify = (content: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("patch", "https://discord.com/api/v9/users/@me", headers, content)
+modify = (self, content: @string) {
+    return $.http_request(
+        "patch",
+        "https://discord.com/api/v9/users/@me",
+        self.headers(),
+        content
+    )
 }
 
-guilds = (auth: @string) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("get", "https://discord.com/api/v9/users/@me/guilds", headers, "")
+guilds = (self, auth: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/users/@me/guilds",
+        self.headers(),
+        ""
+    )
 }
 
-leave = (guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("delete", "https://discord.com/api/v9/users/@me/guilds/{}".fmt(guild_id), headers, "")
+leave = (self, guild_id: @string) {
+    return $.http_request(
+        "delete",
+        "https://discord.com/api/v9/users/@me/guilds/{}".fmt(guild_id),
+        self.headers(),
+        ""
+    )
 }
 
-connections = (auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("get", "https://discord.com/api/v9/users/@me/connections", headers, "")
+connections = (self) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/users/@me/connections",
+        self.headers(),
+        ""
+    )
 }
 
 return {

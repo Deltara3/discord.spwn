@@ -1,8 +1,10 @@
-get = (guild_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("get", "https://discord.com/api/v9/guilds/{}/audit-logs".fmt(guild_id), headers, "")
+get = (self, guild_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/guilds/{}/audit-logs".fmt(guild_id),
+        self.headers(),
+        ""
+    )
 }
 
 return {

@@ -1,33 +1,42 @@
-start = (content: @string, channel_id: @string, message_id: @string = "", auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    if message_id.is_empty() == true {
-        return $.http_request("post", "https://discord.com/api/v9/channels/{}/threads".fmt(channel_id), headers, content)
-    } else {
-        return $.http_request("post", "https://discord.com/api/v9/channels/{}/messages/{}/threads".fmt([channel_id, message_id]), headers, content)
-    }
+start = (self, content: @string, channel_id: @string, message_id: @string = "") {
+    return $.http_request(
+        "post",
+        "https://discord.com/api/v9/channels/{}/threads".fmt(channel_id)
+            if message_id.is_empty() else
+        "https://discord.com/api/v9/channels/{}/messages/{}/threads".fmt([channel_id, message_id]),
+        self.headers(),
+        content
+    )
 }
 
-add = (thread_id: @string, user: @string = "@me", auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("put", "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]), headers, "")
+add = (self, thread_id: @string, user: @string = "@me") {
+    return $.http_request(
+        "put",
+        "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
+        self.headers(),
+        ""
+    )
 }
 
-remove = (thread_id: @string, user: @string = "@me", auth: @string = $.readfile("../../auth.dat")) {
+remove = (self, thread_id: @string, user: @string = "@me") {
     headers = {
         "Authorization": auth
     }
-    return $.http_request("remove", "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]), headers, "")
+    return $.http_request(
+        "remove",
+        "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
+        self.headers(),
+        ""
+    )
 }
 
-members = (thread_id: @string, auth: @string = $.readfile("../../auth.dat")) {
-    headers = {
-        "Authorization": auth
-    }
-    return $.http_request("get", "https://discord.com/api/v9/channels/{}/thread-members".fmt(thread_id), headers, "")
+members = (self, thread_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/channels/{}/thread-members".fmt(thread_id),
+        self.headers(),
+        ""
+    )
 }
 
 return {
