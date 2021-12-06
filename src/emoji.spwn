@@ -1,0 +1,52 @@
+list = (self, guild_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
+        self.headers(),
+        "",
+    )
+}
+
+get = (self, guild_id: @string, emoji_id: @string) {
+    return $.http_request(
+        "get",
+        "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
+        self.headers(),
+        "",
+    )
+}
+
+create = (self, content: @string, guild_id: @string) {
+    return $.http_request(
+        "post",
+        "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
+        self.headers(),
+        content,
+    )
+}
+
+modify = (self, content: @string, guild_id: @string, emoji_id: @string) {
+    return $.http_request(
+        "patch",
+        "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
+        self.headers(),
+        content,
+    )
+}
+
+delete = (self, guild_id: @string, emoji_id: @string) {
+    return $.http_request(
+        "delete",
+        "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
+        self.headers(),
+        "",
+    )
+}
+
+return {
+    list,
+    get,
+    create,
+    modify,
+    delete,
+}

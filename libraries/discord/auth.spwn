@@ -1,0 +1,7 @@
+write = (token: @string, token_type: @string = "Bot") {
+    $.writefile("auth.dat", "{} {}".fmt([token_type, token]))
+}
+
+return {
+    write
+}
