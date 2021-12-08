@@ -3,500 +3,504 @@
  * Use a find function (Ctrl + F), to quick jump.
  * These are for developers and contributers.
  * ----------------------------------------------
- * section.audit
- * section.channel
- *     section.channel.subsection.control
- *     section.channel.subsection.chat
- * section.emote
- * section.guild
- * section.invite
- * section.stage
- * section.sticker
- * section.thread
- * section.user
- * section.webhook
+ * type.discordAPI
+ *     section.base
+ *     section.audit
+ *     section.channel
+ *         section.channel.subsection.control
+ *         section.channel.subsection.chat
+ *     section.emote
+ *     section.guild
+ *     section.invite
+ *     section.stage
+ *     section.sticker
+ *     section.thread
+ *     section.user
+ *     section.webhook
  */
 
- type @discordAPI
- impl @discordAPI {
-     new: (token: @string, token_type: @string = "Bot"){
-         return @discordAPI::{
-             token: token,
-             token_type: token_type
-         }
-     },
-     headers: (self, content: @dictionary = {}, auth = true){
-         let headers = {
-             "Content-Type": "application/json"
-         }
-         if auth {
-             headers.set("Authorization", "{} {}".fmt([self.token_type, self.token]))
-         }
-         for items in content.items() {
-             headers.set(items[0], items[1])
-         }
-         return headers
-     },
-     // section.audit
-     getAudit: (self, guild_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/guilds/{}/audit-logs".fmt(guild_id),
-             self.headers(),
-             "",
-         )
-     },
-     /* section.channel
-      * section.channel.subsection.control
-      */
-     getChannel: (self, channel_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/channels/{}".fmt(channel_id),
-             self.headers(),
-             "",
-         )
-     },
-     modifyChannel: (self, content: @string, channel_id: @string){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/channels/{}".fmt(channel_id),
-             self.headers(),
-             content,
-         )
-     },
-     deleteChannel: (self, channel_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/channels/{}".fmt(channel_id),
-             self.headers(),
-             "",
-         )
-     },
-     // section.channel.subsection.chat
-     messageSend: (self, content: @string, channel_id: @string){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id),
-             self.headers(),
-             content,
-         )
-     },
-     crosspostMessage: (self, channel_id: @string, message_id: @string){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/{}/messages/{}/crosspost".fmt([channel_id, message_id]),
-             self.headers(),
-             "",
-         )
-     },
-     editMessage: (self, content: @string, channel_id: @string, message_id: @string){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
-             self.headers(),
-             content,
-         )
-     },
-     deleteMessage: (self, channel_id: @string, message_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
-             self.headers(),
-             "",
-         )
-     },
-     pinMessage: (self, channel_id: @string, message_id: @string){
-         return $.http_request(
-             "put",
-             "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]),
-             self.headers(),
-             "",
-         )
-     },
-     unpinMessage: (self, channel_id: @string, message_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]),
-             self.headers(),
-             "",
-         )
-     },
-     pinnedMessages: (self, channel_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/channels/{}/pins".fmt(channel_id),
-             self.headers(),
-             "",
-         )
-     },
-     getMessage: (self, channel_id: @string, message_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
-             self.headers(),
-             "",
-         )
-     },
-     getMessages: (self, channel_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id),
-             self.headers(),
-             "",
-         )
-     },
-     reactTo: (self, channel_id: @string, message_id: @string, emote: @string){
-         return $.http_request(
-             "put",
-             "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/@me".fmt([channel_id, message_id, emote]),
-             self.headers(),
-             "",
-         )
-     },
-     unreactTo: (self, channel_id: @string, message_id: @string, emote: @string, user_id: @string = "@me"){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/{}".fmt([channel_id, message_id, emote, user_id]),
-             self.headers(),
-             "",
-         )
-     },
-     getReactions: (self, channel_id: @string, message_id: @string, emote: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]),
-             self.headers(),
-             "",
-         )
-     },
-     deleteAllReactions: (self, channel_id: @string, message_id: @string, emote: @string = ""){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/channels/{}/messages/{}/reactions".fmt([channel_id, message_id]) if
-                 emote.is_empty() else
-             "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]),
-             self.headers(),
-             "",
-         )
-     },
-     // section.emote
-     listEmotes: (self, guild_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
-             self.headers(),
-             "",
-         )
-     },
-     getEmote: (self, guild_id: @string, emoji_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
-             self.headers(),
-             "",
-         )
-     },
-     createEmote: (self, content: @string, guild_id: @string){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
-             self.headers(),
-             content,
-         )
-     },
-     modifyEmote: (self, content: @string, guild_id: @string, emoji_id: @string){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
-             self.headers(),
-             content,
-         )
-     },
-     deleteEmote: (self, guild_id: @string, emoji_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
-             self.headers(),
-             "",
-         )
-     },
-     // section.guild
-     createGuild: (self, content: @string){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/guilds",
-             self.headers(),
-             content,
-         )
-     },
-     getGuild: (self, guild_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/guilds/{}".fmt(guild_id),
-             self.headers(),
-             "",
-         )
-     },
-     // section.invite
-     getInvite: (self, invite_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/invites/{}".fmt(invite_id),
-             {},
-             "",
-         )
-     },
-     deleteInvite: (self, invite_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/invites/{}".fmt(invite_id),
-             self.headers(),
-             "",
-         )
-     },
-     // section.stage
-     getStage: (self, channel_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
-             self.headers(),
-             "",
-         )
-     },
-     modifyStage: (self, channel_id: @string){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
-             self.headers(),
-             "",
-         )
-     },
-     deleteStage: (self, channel_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
-             headers,
-             "",
-         )
-     },
-     // section.sticker
-     getSticker: (self, sticker_id: @string, sticker_type: @string = "nitro", guild_id: @string){
-         return $.http_request(
-             "get",
-             switch sticker_type {
-                 case 'nitro': "https://discord.com/api/v9/stickers/{}".fmt(sticker_id),
-                 case 'guild': "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
-             },
-             self.headers(),
-             "",
-         )
-     },
-     stickerPacks: (self){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/sticker-packs",
-             {},
-             "",
-         )
-     },
-     listStickers: (self, guild_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
-             self.headers(),
-             "",
-         )
-     },
-     createSticker: (self, content: @string, guild_id: @string){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
-             self.headers({
-                 "Content-Type": "multipart/form-data",
-             }),
-             content,
-         )
-     },
-     modifySticker: (self, content: @string, guild_id: @string, sticker_id: @string){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
-             self.headers({
-                 "Content-Type": "multipart/form-data"
-             }),
-             content,
-         )
-     },
-     deleteSticker: (self, content: @string, guild_id: @string, sticker_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
-             self.headers(),
-             content,
-         )
-     },
-     // section.thread
-     startThread: (self, content: @string, channel_id: @string, message_id: @string = ""){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/channels/{}/threads".fmt(channel_id) if
-                 message_id.is_empty() else
-             "https://discord.com/api/v9/channels/{}/messages/{}/threads".fmt([channel_id, message_id]),
-             self.headers(),
-             content,
-         )
-     },
-     addThreadMember: (self, thread_id: @string, user: @string = "@me"){
-         return $.http_request(
-             "put",
-             "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
-             self.headers(),
-             "",
-         )
-     },
-     removeThreadMember: (self, thread_id: @string, user: @string = "@me"){
-         headers = {
-             "Authorization": auth
-         }
-         return $.http_request(
-             "remove",
-             "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
-             self.headers(),
-             "",
-         )
-     },
-     listMembers: (self, thread_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/channels/{}/thread-members".fmt(thread_id),
-             self.headers(),
-             "",
-         )
-     },
-     // section.user
-     getUser: (self, user: @string = "@me"){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/users/{}".fmt(user),
-             self.headers(),
-             "",
-         )
-     },
-     modifyCurrentUser: (self, content: @string){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/users/@me",
-             self.headers(),
-             content,
-         )
-     },
-     listGuilds: (self, auth: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/users/@me/guilds",
-             self.headers(),
-             "",
-         )
-     },
-     leaveGuild: (self, guild_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/users/@me/guilds/{}".fmt(guild_id),
-             self.headers(),
-             "",
-         )
-     },
-     listConnections: (self){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/users/@me/connections",
-             self.headers(),
-             "",
-         )
-     },
-     // section.webhook
-     createWebhook: (self, content: @string, channel_id: @string){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/channels/{}/webhooks",
-             self.headers(),
-             content,
-         )
-     },
-     getAllWebhooks: (self, id: @string, id_type: @string = "channel"){
-         return $.http_request(
-             "get",
-             switch id_type {
-                 case "channel": "https://discord.com/api/v9/channels/{}/webhooks".fmt(id),
-                 case "guild": "https://discord.com/api/v9/guilds/{}/webhooks".fmt(id),
-             },
-             self.headers(),
-             "",
-         )
-     },
-     getWebhook: (self, webhook_id: @string, token: @string = ""){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id) if
-                 token.is_empty() else
-             "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
-             self.headers(),
-             "",
-         )
-     },
-     modifyWebhook: (self, content: @string, webhook_id: @string, token: @string = ""){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id) if
-                 token.is_empty() else
-             "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
-             self.headers(),
-             content,
-         )
-     },
-     deleteWebhook: (self, webhook_id: @string, token: @string = ""){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id) if
-                 token.is_empty() else
-             "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
-             self.headers(),
-             "",
-         )
-     },
-     messageWebhook: (self, content: @string, webhook_id: @string, token: @string){
-         return $.http_request(
-             "post",
-             "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
-             self.headers({
-                 "Content-Type": "application/json"
-             }, false),
-             content,
-         )
-     },
-     getWebhookMessage: (self, webhook_id: @string, token: @string, message_id: @string){
-         return $.http_request(
-             "get",
-             "https://discord.com/api/v9/webhooks/{}/{}/message/{}".fmt([webhook_id, token, message_id]),
-             {},
-             "",
-         )
-     },
-     editWebhookMessage: (self, content: @string, webhook_id: @string, token: @string, message_id: @string){
-         return $.http_request(
-             "patch",
-             "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
-             {},
-             content,
-         )
-     },
-     deleteWebhookMessage: (self, webhook_id: @string, token: @string, message_id: @string){
-         return $.http_request(
-             "delete",
-             "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
-             {},
-             "",
-         )
-     },
- }
+
+type @discordAPI
+impl @discordAPI {
+    // section.base
+    new: (token: @string, token_type: @string = "Bot"){
+        return @discordAPI::{
+            token: token,
+            token_type: token_type
+        }
+    },
+    headers: (self, content: @dictionary = {}, auth = true){
+        let headers = {
+            "Content-Type": "application/json"
+        }
+        if auth {
+            headers.set("Authorization", "{} {}".fmt([self.token_type, self.token]))
+        }
+        for items in content.items() {
+            headers.set(items[0], items[1])
+        }
+        return headers
+    },
+    // section.audit
+    getAudit: (self, guild_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/guilds/{}/audit-logs".fmt(guild_id),
+            self.headers(),
+            "",
+        )
+    },
+    /* section.channel
+     * section.channel.subsection.control
+     */
+    getChannel: (self, channel_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/channels/{}".fmt(channel_id),
+            self.headers(),
+            "",
+        )
+    },
+    modifyChannel: (self, content: @string, channel_id: @string){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/channels/{}".fmt(channel_id),
+            self.headers(),
+            content,
+        )
+    },
+    deleteChannel: (self, channel_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/channels/{}".fmt(channel_id),
+            self.headers(),
+            "",
+        )
+    },
+    // section.channel.subsection.chat
+    messageSend: (self, content: @string, channel_id: @string){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id),
+            self.headers(),
+            content,
+        )
+    },
+    crosspostMessage: (self, channel_id: @string, message_id: @string){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/{}/messages/{}/crosspost".fmt([channel_id, message_id]),
+            self.headers(),
+            "",
+        )
+    },
+    editMessage: (self, content: @string, channel_id: @string, message_id: @string){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
+            self.headers(),
+            content,
+        )
+    },
+    deleteMessage: (self, channel_id: @string, message_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
+            self.headers(),
+            "",
+        )
+    },
+    pinMessage: (self, channel_id: @string, message_id: @string){
+        return $.http_request(
+            "put",
+            "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]),
+            self.headers(),
+            "",
+        )
+    },
+    unpinMessage: (self, channel_id: @string, message_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/channels/{}/pins/{}".fmt([channel_id, message_id]),
+            self.headers(),
+            "",
+        )
+    },
+    pinnedMessages: (self, channel_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/channels/{}/pins".fmt(channel_id),
+            self.headers(),
+            "",
+        )
+    },
+    getMessage: (self, channel_id: @string, message_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/channels/{}/messages/{}".fmt([channel_id, message_id]),
+            self.headers(),
+            "",
+        )
+    },
+    getMessages: (self, channel_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/channels/{}/messages".fmt(channel_id),
+            self.headers(),
+            "",
+        )
+    },
+    reactTo: (self, channel_id: @string, message_id: @string, emote: @string){
+        return $.http_request(
+            "put",
+            "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/@me".fmt([channel_id, message_id, emote]),
+            self.headers(),
+            "",
+        )
+    },
+    unreactTo: (self, channel_id: @string, message_id: @string, emote: @string, user_id: @string = "@me"){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}/{}".fmt([channel_id, message_id, emote, user_id]),
+            self.headers(),
+            "",
+        )
+    },
+    getReactions: (self, channel_id: @string, message_id: @string, emote: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]),
+            self.headers(),
+            "",
+        )
+    },
+    deleteAllReactions: (self, channel_id: @string, message_id: @string, emote: @string = ""){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/channels/{}/messages/{}/reactions".fmt([channel_id, message_id]) if
+                emote.is_empty() else
+            "https://discord.com/api/v9/channels/{}/messages/{}/reactions/{}".fmt([channel_id, message_id, emote]),
+            self.headers(),
+            "",
+        )
+    },
+    // section.emote
+    listEmotes: (self, guild_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
+            self.headers(),
+            "",
+        )
+    },
+    getEmote: (self, guild_id: @string, emoji_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
+            self.headers(),
+            "",
+        )
+    },
+    createEmote: (self, content: @string, guild_id: @string){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/guilds/{}/emojis".fmt(guild_id),
+            self.headers(),
+            content,
+        )
+    },
+    modifyEmote: (self, content: @string, guild_id: @string, emoji_id: @string){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
+            self.headers(),
+            content,
+        )
+    },
+    deleteEmote: (self, guild_id: @string, emoji_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/guilds/{}/emojis/{}".fmt([guild_id, emoji_id]),
+            self.headers(),
+            "",
+        )
+    },
+    // section.guild
+    createGuild: (self, content: @string){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/guilds",
+            self.headers(),
+            content,
+        )
+    },
+    getGuild: (self, guild_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/guilds/{}".fmt(guild_id),
+            self.headers(),
+            "",
+        )
+    },
+    // section.invite
+    getInvite: (self, invite_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/invites/{}".fmt(invite_id),
+            {},
+            "",
+        )
+    },
+    deleteInvite: (self, invite_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/invites/{}".fmt(invite_id),
+            self.headers(),
+            "",
+        )
+    },
+    // section.stage
+    getStage: (self, channel_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
+            self.headers(),
+            "",
+        )
+    },
+    modifyStage: (self, channel_id: @string){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
+            self.headers(),
+            "",
+        )
+    },
+    deleteStage: (self, channel_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/stage-instances/{}".fmt(channel_id),
+            headers,
+            "",
+        )
+    },
+    // section.sticker
+    getSticker: (self, sticker_id: @string, sticker_type: @string = "nitro", guild_id: @string){
+        return $.http_request(
+            "get",
+            switch sticker_type {
+                case 'nitro': "https://discord.com/api/v9/stickers/{}".fmt(sticker_id),
+                case 'guild': "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+            },
+            self.headers(),
+            "",
+        )
+    },
+    stickerPacks: (self){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/sticker-packs",
+            {},
+            "",
+        )
+    },
+    listStickers: (self, guild_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
+            self.headers(),
+            "",
+        )
+    },
+    createSticker: (self, content: @string, guild_id: @string){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/guilds/{}/stickers".fmt(guild_id),
+            self.headers({
+                "Content-Type": "multipart/form-data",
+            }),
+            content,
+        )
+    },
+    modifySticker: (self, content: @string, guild_id: @string, sticker_id: @string){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+            self.headers({
+                "Content-Type": "multipart/form-data"
+            }),
+            content,
+        )
+    },
+    deleteSticker: (self, content: @string, guild_id: @string, sticker_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/guilds/{}/stickers/{}".fmt([guild_id, sticker_id]),
+            self.headers(),
+            content,
+        )
+    },
+    // section.thread
+    startThread: (self, content: @string, channel_id: @string, message_id: @string = ""){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/channels/{}/threads".fmt(channel_id) if
+                message_id.is_empty() else
+            "https://discord.com/api/v9/channels/{}/messages/{}/threads".fmt([channel_id, message_id]),
+            self.headers(),
+            content,
+        )
+    },
+    addThreadMember: (self, thread_id: @string, user: @string = "@me"){
+        return $.http_request(
+            "put",
+            "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
+            self.headers(),
+            "",
+        )
+    },
+    removeThreadMember: (self, thread_id: @string, user: @string = "@me"){
+        headers = {
+            "Authorization": auth
+        }
+        return $.http_request(
+            "remove",
+            "https://discord.com/api/v9/channels/{}/thread-members/{}".fmt([thread_id, user]),
+            self.headers(),
+            "",
+        )
+    },
+    listMembers: (self, thread_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/channels/{}/thread-members".fmt(thread_id),
+            self.headers(),
+            "",
+        )
+    },
+    // section.user
+    getUser: (self, user: @string = "@me"){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/users/{}".fmt(user),
+            self.headers(),
+            "",
+        )
+    },
+    modifyCurrentUser: (self, content: @string){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/users/@me",
+            self.headers(),
+            content,
+        )
+    },
+    listGuilds: (self, auth: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/users/@me/guilds",
+            self.headers(),
+            "",
+        )
+    },
+    leaveGuild: (self, guild_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/users/@me/guilds/{}".fmt(guild_id),
+            self.headers(),
+            "",
+        )
+    },
+    listConnections: (self){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/users/@me/connections",
+            self.headers(),
+            "",
+        )
+    },
+    // section.webhook
+    createWebhook: (self, content: @string, channel_id: @string){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/channels/{}/webhooks",
+            self.headers(),
+            content,
+        )
+    },
+    getAllWebhooks: (self, id: @string, id_type: @string = "channel"){
+        return $.http_request(
+            "get",
+            switch id_type {
+                case "channel": "https://discord.com/api/v9/channels/{}/webhooks".fmt(id),
+                case "guild": "https://discord.com/api/v9/guilds/{}/webhooks".fmt(id),
+            },
+            self.headers(),
+            "",
+        )
+    },
+    getWebhook: (self, webhook_id: @string, token: @string = ""){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id) if
+                token.is_empty() else
+            "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
+            self.headers(),
+            "",
+        )
+    },
+    modifyWebhook: (self, content: @string, webhook_id: @string, token: @string = ""){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id) if
+                token.is_empty() else
+            "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
+            self.headers(),
+            content,
+        )
+    },
+    deleteWebhook: (self, webhook_id: @string, token: @string = ""){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/webhooks/{}".fmt(webhook_id) if
+                token.is_empty() else
+            "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
+            self.headers(),
+            "",
+        )
+    },
+    messageWebhook: (self, content: @string, webhook_id: @string, token: @string){
+        return $.http_request(
+            "post",
+            "https://discord.com/api/v9/webhooks/{}/{}".fmt([webhook_id, token]),
+            self.headers({
+                "Content-Type": "application/json"
+            }, false),
+            content,
+        )
+    },
+    getWebhookMessage: (self, webhook_id: @string, token: @string, message_id: @string){
+        return $.http_request(
+            "get",
+            "https://discord.com/api/v9/webhooks/{}/{}/message/{}".fmt([webhook_id, token, message_id]),
+            {},
+            "",
+        )
+    },
+    editWebhookMessage: (self, content: @string, webhook_id: @string, token: @string, message_id: @string){
+        return $.http_request(
+            "patch",
+            "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
+            {},
+            content,
+        )
+    },
+    deleteWebhookMessage: (self, webhook_id: @string, token: @string, message_id: @string){
+        return $.http_request(
+            "delete",
+            "https://discord.com/api/v9/webhooks/{}/{}/messages/{}".fmt([webhook_id, token, message_id]),
+            {},
+            "",
+        )
+    },
+}

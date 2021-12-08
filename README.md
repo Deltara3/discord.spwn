@@ -4,7 +4,7 @@ An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-la
 
 ## Entirely Implemented
 
-- [ ] Audit
+- [X] Audit
 - [ ] Channel
 - [ ] Client
 - [ ] Emoji
