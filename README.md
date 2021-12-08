@@ -1,7 +1,9 @@
 # discord.spwn
+
 An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-language).
 
 ## Entirely Implemented
+
 - [ ] Audit
 - [ ] Channel
 - [ ] Client
@@ -16,4 +18,3 @@ An API wrapper for Discord, written in [SPWN](https://github.com/Spu7Nix/SPWN-la
 - [ ] Commands
 - [ ] IPC/RPC
 - [ ] Ease of use
-
