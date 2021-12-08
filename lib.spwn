@@ -1,10 +1,9 @@
-
-
 type @discordAPI
 impl @discordAPI {
-    new: (token: @string){
+    new: (token: @string, token_type: @string = "Bot"){
         return @discordAPI::{
             token: token,
+            token_type: token_type
         }
     },
     headers: (self, content: @dictionary = {}, auth = true){
@@ -12,7 +11,7 @@ impl @discordAPI {
             "Content-Type": "application/json"
         }
         if auth {
-            headers.set("Authorization", self.token)
+            headers.set("Authorization", "{} {}".fmt([self.token_type, self.token]))
         }
         for items in content.items() {
             headers.set(items[0], items[1])
