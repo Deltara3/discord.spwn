@@ -3,7 +3,7 @@
  * Use a find function (Ctrl + F), to quick jump.
  * These are for developers and contributers.
  * ----------------------------------------------
- * type.discordAPI
+ * type.DiscordAPI
  *     section.base
  *     section.audit
  *     section.channel
@@ -19,12 +19,12 @@
  *     section.webhook
  */
 
-// type.discordAPI
-type @discordAPI
-impl @discordAPI {
+// type.DiscordAPI
+type @DiscordAPI
+impl @DiscordAPI {
     // section.base
     new: (token: @string, token_type: @string = "Bot"){
-        return @discordAPI::{
+        return @DiscordAPI::{
             token: token,
             token_type: token_type
         }
