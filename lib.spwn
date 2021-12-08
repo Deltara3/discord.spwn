@@ -3,7 +3,9 @@
  * Use a find function (Ctrl + F), to quick jump.
  * These are for developers and contributers.
  * ----------------------------------------------
- * type.DiscordAPI
+ * type.command
+ *     section.base
+ * type.discordAPI
  *     section.base
  *     section.audit
  *     section.channel
@@ -19,12 +21,32 @@
  *     section.webhook
  */
 
-// type.DiscordAPI
-type @DiscordAPI
-impl @DiscordAPI {
+//type.command
+type @command
+impl @command {
+    // section.base
+    new: (command_prefix: @string = "."){
+        return @command::{
+            prefix: command_prefix,
+            dictionary: {}
+        }
+    },
+    add: (self, name: @string, func: @macro){
+        self.dictionary.set(name, func)
+    },
+    execute: (self, name: @string){
+        if self.dictionary has name {
+            self.dictionary[name]()
+        }
+    },
+}
+
+// type.discordAPI
+type @discordAPI
+impl @discordAPI {
     // section.base
     new: (token: @string, token_type: @string = "Bot"){
-        return @DiscordAPI::{
+        return @discordAPI::{
             token: token,
             token_type: token_type
         }
@@ -40,6 +62,9 @@ impl @DiscordAPI {
             headers.set(items[0], items[1])
         }
         return headers
+    },
+    run: (commands: @command = null){
+
     },
     // section.audit
     getAudit: (self, guild_id: @string){
