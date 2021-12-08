@@ -19,7 +19,7 @@
  *     section.webhook
  */
 
-
+// type.discordAPI
 type @discordAPI
 impl @discordAPI {
     // section.base
