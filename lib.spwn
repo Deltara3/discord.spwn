@@ -3,7 +3,6 @@
  * Use a find function (Ctrl + F), to quick jump.
  * These are for developers and contributers.
  * ----------------------------------------------
- * type.component
  * type.command
  *     section.base
  * type.discordAPI
@@ -33,13 +32,6 @@ todict = (json: @string, include: @array) {
     }
     $.writefile("./conv.tmp", "")
     return converted
-}
-
-type @component
-impl @component {
-    new: (component_dictionary: @dictionary){
-
-    }
 }
 
 // type.command
