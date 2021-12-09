@@ -35,6 +35,13 @@ todict = (json: @string, include: @array) {
     return converted
 }
 
+type @component
+impl @component {
+    new: (component_dictionary: @dictionary){
+
+    }
+}
+
 // type.command
 type @command
 impl @command {
