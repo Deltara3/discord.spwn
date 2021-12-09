@@ -3,15 +3,13 @@
  * Use a find function (Ctrl + F), to quick jump.
  * These are for developers and contributers.
  * ----------------------------------------------
- * type.auditlog
- * type.auditentry
- * type.channel
+ * type.component
  * type.command
  *     section.base
  * type.discordAPI
  *     section.base
  *     section.audit
- *     section.user
+ *     section.channel
  *         section.channel.subsection.control
  *         section.channel.subsection.chat
  *     section.emote
@@ -24,10 +22,6 @@
  *     section.webhook
  */
 
-/* String to dictionary.
- * Source code if you don't trust it. Trust me, its fine.
- * https://replit.com/@Deltara/imbroke#main.py
- */
 todict = (json: @string, include: @array) {
     $.writefile("./conv.tmp", json)
     result = $.readfile("./conv.tmp", "json")
@@ -39,112 +33,6 @@ todict = (json: @string, include: @array) {
     }
     $.writefile("./conv.tmp", "")
     return converted
-}
-
-// type.auditlog
-type @auditlog
-impl @auditlog {
-    new: (content: @string | @dictionary){
-        included = [
-            "audit_log_entries",
-            "guild_scheduled_events",
-            "integrations",
-            "threads",
-            "users",
-            "webhooks",
-        ]
-        if content.type == @string {
-            let buf = []
-            let dictionary = todict(
-                content,
-                included,
-            )
-            for entry in dictionary.audit_log_entries {
-                buf.push(@auditentry::new(entry))
-            }
-            dictionary.set("audit_log_entries", buf)
-            buf.clear
-            for user in dictionary.users {
-                buf.push(@user::new(user))
-            }
-            dictionary.set("users", buf)
-            buf.clear
-            return @auditlog::{
-                dictionary,
-            }
-        } else {
-            for name in included {
-                if content has name {} else {
-                    throw("Missing required parameter \"{}\" in response.".fmt(name))
-                }
-            }
-            return @auditlog::{
-                content,
-            }
-        }
-    }
-}
-
-// type.auditentry
-type @auditentry
-impl @auditentry {
-    new: (content: @string | @dictionary){
-        included = [
-            "target_id",
-            "user_id",
-            "id",
-            "action_type",
-        ]
-        if content.type == @string {
-            let dictionary = todict(
-                content,
-                included,
-            )
-            return @auditentry::{
-                dictionary,
-            }
-        } else {
-            for name in included {
-                if content has name {} else {
-                    throw("Missing required parameter \"{}\" in response.".fmt(name))
-                }
-            }
-            return @auditentry::{
-                content,
-            }
-        }
-    }
-}
-
-// type.user
-type @user
-impl @user {
-    new: (content: @string | @dictionary){
-        included = [
-            "id",
-            "username",
-            "discriminator",
-            "avatar",
-        ]
-        if content.type == @string {
-            let dictionary = todict(
-                content,
-                included,
-            )
-            return @user::{
-                dictionary,
-            }
-        } else {
-            for name in included {
-                if content has name {} else {
-                    throw("Missing required parameter \"{}\" in response.".fmt(name))
-                }
-            }
-            return @user::{
-                content,
-            }
-        }
-    }
 }
 
 // type.command
@@ -194,13 +82,12 @@ impl @discordAPI {
     },
     // section.audit
     getAudit: (self, guild_id: @string){
-        response = $.http_request(
+        return $.http_request(
             "get",
             "https://discord.com/api/v9/guilds/{}/audit-logs".fmt(guild_id),
             self.headers(),
             "",
         )
-        return @auditlog::new(response.text)
     },
     /* section.channel
      * section.channel.subsection.control
